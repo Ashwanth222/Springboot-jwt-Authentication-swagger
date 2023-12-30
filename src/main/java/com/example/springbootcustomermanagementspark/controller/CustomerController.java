@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -35,11 +36,15 @@ public class CustomerController {
     private AuthenticationManager authenticationManager;
 
     @GetMapping("/welcome")
-    @Operation(summary = "This method is used to get the clients.")
     public String welcome() {
         return "Welcome this endpoint is not secure";
     }
 
+    @GetMapping("/getAllCustomers")
+    public List<Customer> getAllCustomers() {
+
+        return repository.findAll();
+    }
     @PostMapping("/addNewCustomer")
     public String addNewUser(@RequestBody Customer customer) {
         return service.addCustomer(customer);

@@ -35,12 +35,30 @@ public class SecurityConfig  {
         return new CustomerInfoService();
     }
 
+    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/generateToken",
+            "/getAllCustomers",
+            "/welcome",
+            "/addNewCustomer",
+            "/customers/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui.html"};
+
+
     // Configuring HttpSecurity
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/welcome", "/addNewCustomer","/swagger-ui/**", "/swagger-ui.html.*", "/generateToken","/customers/**").permitAll()
+                .requestMatchers(WHITE_LIST_URL).permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/customer/**").authenticated()
                 .and()
